@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm-reverse-deployer"
+version = "0.1.0"
+description = "Expose an intranet LLM inference server (vLLM) as a public OpenAI-compatible API via a reverse tunnel."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+authors = [{ name = "zengsn" }]
+keywords = ["llm", "vllm", "reverse-tunnel", "openai", "gateway", "websocket"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "fastapi>=0.110",
+    "uvicorn>=0.27",
+    "httpx>=0.27",
+    "websockets>=12",
+    "pydantic>=2.6",
+    "typer>=0.12",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-asyncio>=0.23"]
+
+[project.scripts]
+llm-gateway = "llm_reverse_deployer.cli:gateway_app"
+llm-worker = "llm_reverse_deployer.cli:worker_app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
